@@ -23,3 +23,5 @@ String parameters input (formula) from the user will consist of numbers, operato
 
 # Flowchart of Code
 - A simple flowchart to show the code logic.
+
+![flowchart](https://github.com/fionngwt/calculator/blob/master/flowchart.PNG?raw=true)
