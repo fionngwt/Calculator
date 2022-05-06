@@ -14,7 +14,7 @@ This solution is able to return correct result for valid math formula, for examp
 - 10 - ( 2 + 3 * ( 7 - 5 ) )
 
 Assumption: 
-String parameters input (formula) from the user will consist of numbers, operators and/or brackets and must be separated by spaces. 
+String parameters input (formula) from the user should consist of numbers, operators and/or brackets and must be separated by spaces. 
 
 # Testing Method
 - A simple unit test project is created to test the functionality of the program.
