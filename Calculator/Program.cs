@@ -111,7 +111,6 @@ namespace Calculator
                 }
 
                 if (formulaList.Count == 2)
-                //if (formulaList.Count <= 2)
                 {
                     return double.NaN;
                 }
