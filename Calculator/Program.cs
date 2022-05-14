@@ -16,6 +16,7 @@ namespace Calculator
 
             do
             {
+                result = new double();
                 Console.WriteLine("\nPlease key in your formula: ");
                 string sum = Console.ReadLine();
 
@@ -51,7 +52,7 @@ namespace Calculator
         /// <returns></returns>
         public static double Calculate(string sum)
         {
-            List<string> formulaList = new List<string>();
+            List<string> formulaList = new List<string>(); // List<string> formulaList = sum.Trim().Split(' ').ToList();
             string[] sumArray = sum.Trim().Split(' ');
 
             foreach (var s in sumArray) 
@@ -59,7 +60,7 @@ namespace Calculator
                 formulaList.Add(s);
             }
 
-            if (formulaList.Contains("("))
+            if (formulaList.Contains("(") || formulaList.Contains(")"))
             {
                 result = BracketCalculation(formulaList);
             }
@@ -110,6 +111,7 @@ namespace Calculator
                 }
 
                 if (formulaList.Count == 2)
+                //if (formulaList.Count <= 2)
                 {
                     return double.NaN;
                 }
@@ -172,29 +174,43 @@ namespace Calculator
                 {
                     int? closeBracket = null;
                     int? openBracket = null;
-
+                        
                     for (int i = 0; i < formulaList.Count; i++)
                     {
-                        if (formulaList[i].ToString() == "(")
+                        if (openBracket == null && closeBracket == null && formulaList[i] == ")") //invalid formula checking eg. 1 ) 2
+                        {
+                            return double.NaN;
+                        }
+
+                        if (formulaList[i] == "(")
                         {
                             openBracket = i;
                         }
 
-                        if (formulaList[i].ToString() == ")")
+                        if (formulaList[i] == ")")
                         {
                             if (!closeBracket.HasValue)
                             {
                                 closeBracket = i;
+                                break;
                             }
                         }
-                    }
+                    }                   
 
                     List<string> subFormula = formulaList.GetRange(openBracket.Value + 1, closeBracket.Value - openBracket.Value - 1);
-                    if (subFormula.Count < 3)
+                   
+                    if (subFormula.Count == 1 && Double.TryParse(subFormula[0], out result))
+                    {
+                        result = Convert.ToDouble(subFormula[0]);
+                    }
+                    else if (subFormula.Count < 3)
                     {
                         return result = double.NaN;
                     }
-                    result = NormalCalculation(subFormula);
+                    else
+                    {
+                        result = NormalCalculation(subFormula);
+                    }
                     formulaList.RemoveRange(openBracket.Value, closeBracket.Value - openBracket.Value + 1);
                     formulaList.Insert(openBracket.Value, result.ToString());
                 } while (formulaList.Contains("("));
